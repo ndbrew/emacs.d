@@ -1,8 +1,14 @@
 #+property: header-args :tangle init.el :results none
 
 * Booting Up
-** init.el
-Let's use ~/.emacs.d/init.el to store my configuration to keep things all in the same place.
+** Emacs Initialization File
+Use ~/.emacs.d/init.el to store my configuration to keep all configuration files in the
+the .emacs.d directory.
+
+Emacs loads the configuration files in the following order:
+1. ~/.emacs.el
+2. ~/.emacs
+3. ~/.emacs.d/init.el
 
 ** Emacs Package Manager
 
