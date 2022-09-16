@@ -32,8 +32,60 @@ Seems to take a while.
 
 - All installed packages are placed, by default, in =~/.emacs.d/elpa=.
 
+The declarative configuration tool [[https://github.com/jwiegley/use-package/][use-package]] is a macro/interface
+that manages other packages and the way they interact.
+- It allows us to tersely organise a package's configuration.
+  - By default, ~(use-package foo)~ only loads a package, if it's on our system.
+    - Use the standalone keyword ~:disabled~ to turn off loading
+      a module that, say, you're not using anymore.
+- It is /not/ a package manger, but we can make it one by having it automatically
+  install modules, via Emacs packing mechanism, when they're not in our system.
+
+  We achieve this by using the keyword option ~:ensure t~.
+- Here are common keywords we will use, in super simplified terms.
+  - ~:init   f₁ … fₙ~  /Always/ executes code forms ~fᵢ~ /before/ loading a package.
+  - ~:diminish str~  Uses /optional/ string ~str~ in the modeline to indicate
+    this module is active. Things we use often needn't take
+    real-estate down there and so no we provide no ~str~.
+  - ~:config f₁ … fₙ~ /Only/ executes code forms ~fᵢ~ /after/ loading a package.
+
+    The remaining keywords only take affect /after/ a module loads.
+
+  - ~:bind ((k₁ . f₁) … (kₙ . fₙ)~ Lets us bind keys ~kᵢ~, such as
+    ~"M-s o"~, to functions, such as =occur=.
+    - When /n = 1/, the extra outer parenthesis are not necessary.
+  - ~:hook ((m₁ … mₙ) . f)~ Enables functionality ~f~ whenever we're in one of the
+    modes ~mᵢ~, such as ~org-mode~. The ~. f~, along with the outermost parenthesis,
+    is optional and defaults to the name of the package ---Warning: Erroneous
+    behaviour happens if the package's name is not a function provided by the
+    package; a common case is when package's name does /not/ end in ~-mode~,
+    leading to the invocation ~((m₁ … mₙ) . <whatever-the-name-is>-mode)~ instead.
+
+    Additionally, when /n = 1/, the extra outer parenthesis are not necessary.
+
+    Outside of =use-package=, one normally uses a ~add-hook~ clause.  Likewise, an
+    ‘advice’ can be given to a function to make it behave differently ---this is
+    known as ‘decoration’ or an ‘attribute’ in other languages.
+
+  - ~:custom (k₁ v₁ d₁) … (kₙ vₙ dₙ)~ Sets a package's custom variables ~kᵢ~ to have
+    values ~vᵢ~, along with /optional/ user documentation ~dᵢ~ to explain to yourself,
+    in the future, why you've made this decision.
+
+    This is essentially ~setq~ within ~:config~.
+
+We now bootstrap ~use-package~.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
 #+END_SRC
+
+We can now invoke ~(use-package XYZ :ensure t)~ which should check for the ~XYZ~
+package and make sure it is accessible.  If not, the ~:ensure t~ part tells
+~use-package~ to download it ---using the built-in ~package~ manager--- and place it
+somewhere accessible, in =~/.emacs.d/elpa/= by default.  By default we would like
+to download packages, since I do not plan on installing them manually by
+downloading Lisp files and placing them in the correct places on my system.
+#+begin_src emacs-lisp
+  (setq use-package-always-ensure t)
+#+end_src
