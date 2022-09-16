@@ -128,3 +128,24 @@ using the ~diminish~ package, so let's install that.
     :config ;; Let's hide some markers.
       (diminish  'org-indent-mode))
 #+end_src
+
+Here are other packages that I want to be installed onto my machine.
+#+begin_src emacs-lisp
+  ;; Efficient version control.
+  ;;
+  ;; Bottom of Emacs will show what branch you're on
+  ;; and whether the local file is modified or not.
+  (use-package magit
+    :config (global-set-key (kbd "C-x g") 'magit-status))
+
+  ;; Main use: Org produced htmls are coloured.
+  ;; Can be used to export a file into a coloured html.
+  (use-package htmlize :defer t)
+
+  ;; “The long lost Emacs string manipulation library”.
+  (use-package s)
+
+  ;; Library for working with system files;
+  ;; e.g., f-delete, f-mkdir, f-move, f-exists?, f-hidden?
+  (use-package f)
+#+end_src
