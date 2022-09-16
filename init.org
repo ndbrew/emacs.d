@@ -1,0 +1,28 @@
+#+property: header-args :tangle init.el :results none
+
+* Booting Up
+** init.el
+Let's use ~/.emacs.d/init.el to store my configuration to keep things all in the same place.
+
+** Emacs Package Manager
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Make all commands of the “package” module present.
+(require 'package)
+
+;; Internet repositories for new packages.
+(setq package-archives '(("gnu"    . "http://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("melpa"  . "http://melpa.org/packages/")))
+
+;; Update local list of available packages:
+;; Get descriptions of all configured ELPA packages,
+;; and make them available for download.
+(package-refresh-contents)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
+#+END_SRC
