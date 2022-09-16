@@ -30,6 +30,8 @@ Seems to take a while.
 (package-refresh-contents)
 #+END_SRC
 
+- All installed packages are placed, by default, in =~/.emacs.d/elpa=.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
