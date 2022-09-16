@@ -102,3 +102,29 @@ Let's set up [[https://github.com/rranelli/auto-package-update.el][an auto-updat
     ;; Update installed packages at startup if there is an update pending.
     (auto-package-update-maybe))
 #+end_src
+
+Here's another example use of ~use-package~.  Later on, I have a “show recent files
+pop-up” command set to ~C-x C-r~; but what if I forget? This mode shows me all key
+completions when I type ~C-x~, for example.  Moreover, I will be shown other
+commands I did not know about! Neato :-)
+#+begin_src emacs-lisp
+  ;; Making it easier to discover Emacs key presses.
+  (use-package which-key
+    :diminish
+    :defer 5
+    :config (which-key-mode)
+            (which-key-setup-side-window-bottom)
+            (setq which-key-idle-delay 0.05))
+#+end_src
+⟨ Honestly, I seldom even acknowledge this pop-up; but it's always nice to show
+to people when I'm promoting Emacs. ⟩
+
+Above, the ~:diminish~ keyword indicates that we do not want the mode's name to be
+shown to us in the modeline ---the area near the bottom of Emacs.  It does so by
+using the ~diminish~ package, so let's install that.
+#+begin_src emacs-lisp
+  (use-package diminish
+    :defer 5
+    :config ;; Let's hide some markers.
+      (diminish  'org-indent-mode))
+#+end_src
