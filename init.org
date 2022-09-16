@@ -11,6 +11,9 @@ Emacs loads the configuration files in the following order:
 3. ~/.emacs.d/init.el
 
 ** Emacs Package Manager
+Load package, configure the package-archives and refresh package content.
+Not sure I like refreshing the package contents on each emacs load.
+Seems to take a while.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Make all commands of the “package” module present.
